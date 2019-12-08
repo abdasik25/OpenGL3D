@@ -4,13 +4,15 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
-import com.example.lab6.geometry.Rose;
-import com.example.lab6.geometry.Star;
+import com.example.lab6.geometry.Ship;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
+/**
+ * The type Game renderer.
+ */
 public class GameRenderer implements GLSurfaceView.Renderer {
 
     private final float[] vPMatrix = new float[16];
@@ -21,8 +23,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private float ratioY;
     private float ratioX;
 
-    private Star star;
-    private Rose rose;
+    private Ship ship;
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
@@ -31,12 +32,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         GLES20.glFrontFace(GLES20.GL_FRONT);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
-        star = new Star();
-            star.setRotationAngle(0.09f);
-            star.setRotationAxis(new float[]{1,0,0});
-            star.setTranslation(new float[]{0,0,2});
+        ship = new Ship();
 
-        rose = new Rose();
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -49,8 +46,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
 
-        star.draw(vPMatrix);
-        rose.draw(vPMatrix);
+        ship.draw(vPMatrix);
     }
 
 
@@ -84,7 +80,14 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         GameView.bottom = bottom;
     }
 
-    public static int loadShader(int type, String shaderCode){
+    /**
+     * Load shader int.
+     *
+     * @param type       the type
+     * @param shaderCode the shader code
+     * @return the int
+     */
+    public static int loadShader(int type, String shaderCode) {
 
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
         // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
